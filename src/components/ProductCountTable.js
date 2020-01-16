@@ -19,6 +19,7 @@ const useStyles = makeStyles({
 export default function ProductCountTable(props) {
   const classes = useStyles();
   const {purchaseOrder} = props;
+  const products = purchaseOrder.products
   var sub = null;
   
 
@@ -27,12 +28,13 @@ export default function ProductCountTable(props) {
     inputValue: ""
   });
 
-  useEffect(async()=> {
-    await loadProducts();   
-    // sub = document.addEventListener("paste", handleChangeInput)    
+  useEffect(()=> {
+    loadProducts();   
   }, [])
 
   async function loadProducts(){
+    console.log("PRODUCTS")
+    console.log(purchaseOrder)
     await setState({...state, products: purchaseOrder && purchaseOrder.products})
   }
 
