@@ -19,11 +19,9 @@ const ProductCountPage = () => {
 
     const loadPurchaseOrder = async () => {
         const response = await api.get('/purchase-orders/'+purchaseOrderId);
-        console.log(response)
         setState({
             purchaseOrder: response.data,
         })
-        console.log(response.data)
     };
       
     if(!purchaseOrderId) return null;

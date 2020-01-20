@@ -40,12 +40,11 @@ export default function SimpleTable(props) {
           <TableRow>
             <TableCell>Código</TableCell>
             <TableCell align="center">Cliente</TableCell>
-            <TableCell align="right">Data</TableCell>
           </TableRow>
         </TableHead>
         {loading ? <div style={{width: "100%",height: "100",display: "flex",justifyContent: "center",alignItems: "center"}}><CircularProgress /></div> : <SimpleTableBody purchaseOrders={purchaseOrders} />}
     
-        <TableFooter>
+        {/* <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
@@ -62,7 +61,7 @@ export default function SimpleTable(props) {
             //   ActionsComponent={TablePaginationActions}
             />
           </TableRow>
-        </TableFooter>
+        </TableFooter> */}
       </Table>
     </TableContainer>
   );
@@ -84,7 +83,6 @@ function SimpleTableBody(props) {
               {row.purchaseOrderId}
             </TableCell>
             <TableCell align="center">{row.clientName}</TableCell>
-            <TableCell align="right">{"row.fat"}</TableCell>
           </TableRow>
         ))}
     </TableBody>

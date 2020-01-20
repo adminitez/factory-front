@@ -83,7 +83,7 @@ export default function EditDialog(props) {
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button disabled={!state.textPass || state.textPass !== 'Teste' ? true : false} onClick={handleFinish} color="primary">
+          <Button disabled={!state.textPass || state.textPass !== '0104' ? true : false} onClick={handleFinish} color="primary">
             Finalizar
           </Button>
         </DialogActions>
