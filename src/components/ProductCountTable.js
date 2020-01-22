@@ -79,7 +79,8 @@ export default function ProductCountTable(props) {
 
   function rowColor(row){
     if(row.quantity < row.totalVerified)return "red"
-    if(row.quantity == row.totalVerified)return "green"
+    else if(row.quantity == row.totalVerified)return "green"
+    else if(row.totalVerified > 0) return "yellow"
     else return "default"
   }
 

@@ -80,7 +80,7 @@ function SimpleTableBody(props) {
         {purchaseOrders.map(row => (
           <TableRow key={row.purchaseOrderId} onClick={() => handleClick(row)}>
             <TableCell component="th" scope="row">
-              {row.purchaseOrderId}
+              {Number(row.purchaseOrderNumber)}
             </TableCell>
             <TableCell align="center">{row.clientName}</TableCell>
           </TableRow>
