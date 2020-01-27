@@ -9,8 +9,14 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import EditDialog from './EditDialog'
+import AlertDialog from './AlertDialog'
 import FinishVerificationDialog from './FinishVerificationDialog'
 import api from '../services/Api'
 
@@ -29,12 +35,12 @@ export default function ProductCountTable(props) {
   const [state, setState] = useState({
     products: [],
     inputValue: "",
-    codeEan: ""
+    codeEan: "",
+    openAlertDialog: false
   });
 
   useEffect(()=> {
     loadProducts();   
-    //window.addEventListener('keypress', (event) =>{handleChangeInput(event.key)})
   }, [])
 
   async function loadProducts(){
@@ -58,13 +64,17 @@ export default function ProductCountTable(props) {
 
   function handleChangeInput(key){
     setState({...state, codeEan: state.codeEan+key})
-
     if(state.codeEan.length === 12){
+      let flag = false
       state.products.forEach(product => {
         if(product.code === state.codeEan+key){
           product.totalVerified+=1
+          flag = true
         }
       })
+      if(flag === false){
+        setState({...state, openAlertDialog: true})
+      }
       setState({...state, codeEan: ""})
     }
   };
@@ -84,6 +94,10 @@ export default function ProductCountTable(props) {
     else return "default"
   }
 
+  function handleCloseAlertDialog(){
+    setState({...state, openAlertDialog: false})  
+  }
+
   return (
     <div>
       <Button
@@ -96,34 +110,52 @@ export default function ProductCountTable(props) {
       >
         Salvar
       </Button>
-    <FinishVerificationDialog purchaseOrderId={purchaseOrder.purchaseOrderId}/>
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Código de Barras</TableCell>
-            <TableCell align="right">Produto</TableCell>
-            <TableCell align="right">Quantidade</TableCell>
-            <TableCell align="right">Ações</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {state.products.map(row => (
-            <TableRow key={row.name} style={{backgroundColor:rowColor(row)}} >
-              <TableCell component="th" scope="row">
-                {row.code}
-              </TableCell>
-              <TableCell align="right">{row.description}</TableCell>
-              <TableCell align="right">{row.quantity+"/"+row.totalVerified}</TableCell>
-              <TableCell align="center">
-               <EditDialog onClick={(value) => handleEditClick(row, value)}/>
-            </TableCell>
+      <Dialog
+        open={state.openAlertDialog}
+        onClose={handleCloseAlertDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">ALERTA!</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          Você leu um código de um produto que não esta no pedido. Certifique-se se o pedido esta correto!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAlertDialog} color="primary">
+            Continuar
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <FinishVerificationDialog purchaseOrderId={purchaseOrder.purchaseOrderId}/>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table" size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Código de Barras</TableCell>
+              <TableCell align="right">Produto</TableCell>
+              <TableCell align="right">Quantidade</TableCell>
+              <TableCell align="right">Ações</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-   <input type="text" value={state.inputValue} onChange={event => handleChangeInput(event.target.value)} autoFocus />
+          </TableHead>
+          <TableBody>
+            {state.products.map(row => (
+              <TableRow key={row.code} style={{backgroundColor:rowColor(row)}} >
+                <TableCell component="th" scope="row">
+                  {row.code}
+                </TableCell>
+                <TableCell align="right">{row.description}</TableCell>
+                <TableCell align="right">{row.quantity+"/"+row.totalVerified}</TableCell>
+                <TableCell align="center">
+                <EditDialog onClick={(value) => handleEditClick(row, value)}/>
+              </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    <input type="text" value={state.inputValue} onChange={event => handleChangeInput(event.target.value)} autoFocus />
    </div>
   );
 }
