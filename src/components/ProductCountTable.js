@@ -128,7 +128,7 @@ export default function ProductCountTable(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <FinishVerificationDialog purchaseOrderId={purchaseOrder.purchaseOrderId}/>
+      <FinishVerificationDialog purchaseOrderId={purchaseOrder.purchaseOrderId} products={state.products}/>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table" size="small">
           <TableHead>

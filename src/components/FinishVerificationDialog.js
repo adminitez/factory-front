@@ -33,11 +33,18 @@ export default function FinishVerificationDialog(props) {
   };
 
   const handleFinish = async() => {
-    const body = {
+    let body = {
       quantityBoxes: state.amountBoxes,
       grossWeight: state.grossWeight
     }
     await api.patch('/purchase-orders/'+props.purchaseOrderId+'/freight', body)
+    
+    body = {
+      products: props.products
+    }
+
+    await api.patch('/purchase-orders/'+props.purchaseOrderId+'/products', body)
+    
     history.goBack()
   };
 
