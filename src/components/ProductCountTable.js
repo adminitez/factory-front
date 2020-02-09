@@ -16,7 +16,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import EditDialog from './EditDialog'
-import AlertDialog from './AlertDialog'
 import FinishVerificationDialog from './FinishVerificationDialog'
 import api from '../services/Api'
 
@@ -73,9 +72,9 @@ export default function ProductCountTable(props) {
         }
       })
       if(flag === false){
-        setState({...state, openAlertDialog: true})
+        setState({...state, openAlertDialog: true, codeEan: ""})
       }
-      setState({...state, codeEan: ""})
+      else setState({...state, codeEan: ""})
     }
   };
 

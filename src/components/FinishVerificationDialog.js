@@ -4,10 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import DoneIcon from '@material-ui/icons/Done';
 
@@ -30,6 +27,18 @@ export default function FinishVerificationDialog(props) {
 
   const handleClose = () => {
     setState(initialState);
+  };
+
+  const productsVerification = () => {
+    let totalQuantity = 0
+    let totalVerifield = 0
+
+    props.products.forEach(product => {
+      totalQuantity+=Number(product.quantity)
+      totalVerifield+=Number(product.totalVerified)
+    });
+
+    return totalQuantity === totalVerifield
   };
 
   const handleFinish = async() => {
@@ -55,6 +64,8 @@ export default function FinishVerificationDialog(props) {
   const handleTextFieldGrossWeightOnChange = ({target}) => {
     setState({...state, grossWeight: target.value});
   };
+
+
 
   return (
     <div>
@@ -99,7 +110,7 @@ export default function FinishVerificationDialog(props) {
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button disabled={(state.amountBoxes !== 0 && state.grossWeight !== 0) ? false : true} onClick={handleFinish} color="primary">
+          <Button disabled={(state.amountBoxes !== 0 && state.grossWeight !== 0 && productsVerification()) ? false : true} onClick={handleFinish} color="primary">
             Finalizar
           </Button>
         </DialogActions>

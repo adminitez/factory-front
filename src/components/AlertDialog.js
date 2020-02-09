@@ -11,7 +11,6 @@ export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(false);
 
   useEffect(()=> {
-    console.log("effect")
     if(props.open !== open){
       setOpen(props.open)
     }
