@@ -29,7 +29,7 @@ export default function ProductCountTable(props) {
   const classes = useStyles();
   const {purchaseOrder} = props;
   var sub = null;
-  
+
 
   const [state, setState] = useState({
     products: [],
@@ -39,7 +39,7 @@ export default function ProductCountTable(props) {
   });
 
   useEffect(()=> {
-    loadProducts();   
+    loadProducts();
   }, [])
 
   async function loadProducts(){
@@ -94,7 +94,7 @@ export default function ProductCountTable(props) {
   }
 
   function handleCloseAlertDialog(){
-    setState({...state, openAlertDialog: false})  
+    setState({...state, openAlertDialog: false})
   }
 
   return (
@@ -127,6 +127,7 @@ export default function ProductCountTable(props) {
           </Button>
         </DialogActions>
       </Dialog>
+      <h1>{purchaseOrder.purchaseOrderNumber}</h1>
       <FinishVerificationDialog purchaseOrderId={purchaseOrder.purchaseOrderId} products={state.products}/>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table" size="small">
