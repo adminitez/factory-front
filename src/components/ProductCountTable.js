@@ -99,6 +99,7 @@ export default function ProductCountTable(props) {
 
   return (
     <div>
+      <h1>Número do pedido: {purchaseOrder.purchaseOrderNumber}</h1>
       <Button
         variant="contained"
         color="primary"
@@ -127,7 +128,6 @@ export default function ProductCountTable(props) {
           </Button>
         </DialogActions>
       </Dialog>
-      <h1>{purchaseOrder.purchaseOrderNumber}</h1>
       <FinishVerificationDialog purchaseOrderId={purchaseOrder.purchaseOrderId} products={state.products}/>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table" size="small">
